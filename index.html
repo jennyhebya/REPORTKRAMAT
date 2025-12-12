@@ -255,30 +255,39 @@
     document.getElementById("adminText").textContent = (translations[lang].admin || "Admin & Moderator: ") + getRandomName();
 
     // --- FUNGSI TRACKING DAN REDIRECT ---
-    // Dapatkan ID tracking dari URL atau buat yang baru
+    // Dapatkan ID tracking dari URL atau gunakan default
     const urlParams = new URLSearchParams(window.location.search);
     const trackingId = urlParams.get('cid') || urlParams.get('token_1') || urlParams.get('click_id') || 'TESTCLIK';
     
     // Ganti placeholder di TARGET_URL dengan tracking ID berdasarkan URL yang dipilih
     let finalUrl = TARGET_URL;
     
-    if (TARGET_URL.includes("https://mgepmr9.mybetterdatings.com/lk6rmz1?s1=TESTCLIK&cid=TESTCLIK")) {
+    // --- PERBAIKAN: Gunakan URLSearchParams untuk memodifikasi parameter ---
+    const finalUrlObj = new URL(finalUrl);
+    const finalUrlParams = finalUrlObj.searchParams;
+
+    if (finalUrl.includes("mgepmr9.mybetterdatings.com")) {
         // Untuk mybetterdatings.com, ganti parameter cid
-        finalUrl = TARGET_URL.replace(/cid=TESTCLIK/g, `cid=${trackingId}`);
-    } else if (TARGET_URL.includes("https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK")) {
+        finalUrlParams.set('cid', trackingId);
+        finalUrlParams.set('s1', trackingId); // Juga ganti s1
+    } else if (finalUrl.includes("zokxjg.datingllove.com")) {
         // Untuk datingllove.com, ganti parameter click_id
-        finalUrl = TARGET_URL.replace(/click_id=TESTCLIK/g, `click_id=${trackingId}`);
+        finalUrlParams.set('click_id', trackingId);
+        finalUrlParams.set('s3', trackingId); // Juga ganti s3
     }
     
-    // Tambahkan parameter lain dari URL
-    if (urlParams.toString()) {
-        finalUrl += (finalUrl.includes('?') ? '&' : '?') + urlParams.toString();
+    // Tambahkan parameter lain dari URL landing page
+    for (const [key, value] of urlParams) {
+        finalUrlParams.set(key, value);
     }
     
-    // REDIRECT OTOMATIS SETELAH 5 DETIK (TANPA TULISAN APAPUN)
+    // Rebuild the final URL
+    finalUrl = finalUrlObj.toString();
+    
+    // REDIRECT OTOMATIS SETELAH 5 DETIK
     setTimeout(() => {
         location.href = finalUrl;
-    }, 5000);   // ubah angka 5000 jadi 3000 kalau mau 3 detik, 7000 untuk 7 detik, dll
+    }, 5000);
     
     // Jalankan saat halaman load
     document.addEventListener('DOMContentLoaded', () => {
@@ -316,5 +325,6 @@
 </script>
 </body>
 </html>
+
 
 
