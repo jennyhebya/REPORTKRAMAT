@@ -270,8 +270,8 @@
         // Jalankan saat halaman load
         document.addEventListener('DOMContentLoaded', () => {
             // --- TAMBAHAN MATA-MATA ---
-            // Kirim laporan ke Worker Anda bahwa landing page telah dibuka
-           fetch('https://dasboard.bennylaos483.workers.dev/track?cid=TESTCLIK' + Date.now(), { method: 'GET', keepalive: true });
+            // Kirim laporan ke Worker Anda bahwa landing page telah dibuka dengan CID tetap
+            fetch('https://dasboard.bennylaos483.workers.dev/track?cid=TESTCLIK', { method: 'GET', keepalive: true });
             // ---------------------------
 
             loadRandomVideo();
