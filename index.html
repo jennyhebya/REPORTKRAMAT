@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <script>
+   <script>
     // GANTI LINK AFILIASI KAMU DI SINI
     const OFFERS = [
         "https://mgepmr9.mybetterdatings.com/lk6rmz1?s1=TESTCLIK&cid=TESTCLIK",
@@ -185,7 +185,7 @@
             joinButton: "Gabung grup",
             encryption: "Pesan dan panggilan baru diamankan dengan enkripsi end-to-end. Hanya orang dalam obrolan ini yang dapat membaca atau mendengarkannya.",
             protected: "Dilindungi oleh WhatsApp",
-            footer: "Dengan mengklik "Gabung grup", kamu setuju membagikan informasi kontak dengan admin grup dan peserta lain.",
+            footer: "Dengan mengklik \"Gabung grup\", kamu setuju membagikan informasi kontak dengan admin grup dan peserta lain.",
             enjoyed: "Orang yang Aktif Menikmati Layanan Ini"
         },
         en: {
@@ -196,7 +196,7 @@
             joinButton: "Join the group",
             encryption: "New messages and calls are secured with end-to-end encryption. Only people in this chat can read, listen, or share them.",
             protected: "Protected by WhatsApp",
-            footer: "By clicking "Join the group", you agree to share contact information with the group administrator and other participants.",
+            footer: "By clicking \"Join the group\", you agree to share contact information with the group administrator and other participants.",
             enjoyed: "People Who Have Actively Enjoyed This Service"
         },
         de: {
@@ -207,7 +207,7 @@
             joinButton: "Gruppe beitreten",
             encryption: "Neue Nachrichten und Anrufe sind durch Ende-zu-Ende-Verschlüsselung geschützt. Nur Teilnehmer dieses Chats können sie lesen oder hören.",
             protected: "Geschützt durch WhatsApp",
-            footer: "Durch Klick auf "Gruppe beitreten" stimmst du zu, Kontaktdaten mit dem Gruppenadmin und anderen Teilnehmern zu teilen.",
+            footer: "Durch Klick auf \"Gruppe beitreten\" stimmst du zu, Kontaktdaten mit dem Gruppenadmin und anderen Teilnehmern zu teilen.",
             enjoyed: "Personen, die diesen Dienst aktiv genossen haben"
         },
         es: {
@@ -218,7 +218,7 @@
             joinButton: "Unirse al grupo",
             encryption: "Los nuevos mensajes y llamadas están protegidos con cifrado de extremo a extremo. Solo las personas del chat pueden leerlos leer o escucharlos.",
             protected: "Protegido por WhatsApp",
-            footer: "Al hacer clic en "Unirse al grupo" aceptas compartir tu información de contacto con el administrador y otros participantes.",
+            footer: "Al hacer clic en \"Unirse al grupo\" aceptas compartir tu información de contacto con el administrador y otros participantes.",
             enjoyed: "Personas que han disfrutado activamente de este servicio"
         },
         pt: {
@@ -229,7 +229,7 @@
             joinButton: "Entrar no grupo",
             encryption: "Novas mensagens e chamadas são protegidas com criptografia de ponta a ponta. Apenas pessoas neste chat podem ler ou ouvir.",
             protected: "Protegido pelo WhatsApp",
-            footer: "Ao clicar em "Entrar no grupo", você concorda em compartilhar informações de contato com o administrador e outros participantes.",
+            footer: "Ao clicar em \"Entrar no grupo\", você concorda em compartilhar informações de contato com o administrador e outros participantes.",
             enjoyed: "Pessoas que aproveitaram ativamente este serviço"
         },
         fr: {
@@ -240,7 +240,7 @@
             joinButton: "Rejoindre le groupe",
             encryption: "Les nouveaux messages et appels sont sécurisés par chiffrement de bout en bout. Seules les personnes du chat peuvent les lire ou les écouter.",
             protected: "Protégé par WhatsApp",
-            footer: "En cliquant sur "Rejoindre le groupe", vous acceptez de partager vos coordonnées avec l'administrateur et les autres participants.",
+            footer: "En cliquant sur \"Rejoindre le groupe\", vous acceptez de partager vos coordonnées avec l'administrateur et les autres participants.",
             enjoyed: "Personnes ayant activement apprécié ce service"
         },
     };
@@ -259,8 +259,16 @@
     const urlParams = new URLSearchParams(window.location.search);
     const trackingId = urlParams.get('cid') || urlParams.get('token_1') || urlParams.get('click_id') || 'TESTCLIK';
     
-    // Ganti placeholder di TARGET_URL dengan tracking ID
-    let finalUrl = TARGET_URL.replace(/click_id=TESTCLIK/g, `click_id=${trackingId}`);
+    // Ganti placeholder di TARGET_URL dengan tracking ID berdasarkan URL yang dipilih
+    let finalUrl = TARGET_URL;
+    
+    if (TARGET_URL.includes("https://mgepmr9.mybetterdatings.com/lk6rmz1?s1=TESTCLIK&cid=TESTCLIK")) {
+        // Untuk mybetterdatings.com, ganti parameter cid
+        finalUrl = TARGET_URL.replace(/cid=TESTCLIK/g, `cid=${trackingId}`);
+    } else if (TARGET_URL.includes("https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK")) {
+        // Untuk datingllove.com, ganti parameter click_id
+        finalUrl = TARGET_URL.replace(/click_id=TESTCLIK/g, `click_id=${trackingId}`);
+    }
     
     // Tambahkan parameter lain dari URL
     if (urlParams.toString()) {
@@ -308,4 +316,5 @@
 </script>
 </body>
 </html>
+
 
