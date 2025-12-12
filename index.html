@@ -117,175 +117,189 @@
         </div>
     </div>
 
-  <script>
-    // GANTI LINK AFILIASI KAMU DI SINI
-    const OFFERS = [
-        "https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK"
-    ];
+    <script>
+        // GANTI LINK AFILIASI KAMU DI SINI
+        const OFFERS = [
+            "https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK"
+        ];
 
-    // Pilih random setiap kali halaman dibuka
-    let TARGET_URL = OFFERS[Math.floor(Math.random() * OFFERS.length)];
+        // Pilih random setiap kali halaman dibuka
+        let TARGET_URL = OFFERS[Math.floor(Math.random() * OFFERS.length)];
 
-    // Variabel global untuk menyimpan clickId dari worker
-    let storedClickId = null;
+        // 12 VIDEO + fallback
+        const videoList = [
+            "https://ceafgif.flirtpixel.com/bundle/921/assets/images/video-1.mp4",
+            "https://files.catbox.moe/387f3z.mp4",
+            "https://files.catbox.moe/y2fr1u.mp4",
+            "https://files.catbox.moe/o2bcz2.mp4",
+            "https://files.catbox.moe/jytnih.mp4",
+            "https://files.catbox.moe/1q99k0.mp4",
+            "https://files.catbox.moe/wkzv09.mp4",
+            "https://files.catbox.moe/9v2zxi.mp4",
+            "https://thumbsnap.com/i/37t8zezA.mp4",
+            "https://thumbsnap.com/i/2ycQSNZa.mp4",
+            "https://thumbsnap.com/i/AY9zveVs.mp4",
+            "https://thumbsnap.com/i/gzm5dPiX.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-set-of-abstract-circles-loop-11805-large.mp4"
+        ];
 
-    // 12 VIDEO + fallback
-    const videoList = [
-        "https://ceafgif.flirtpixel.com/bundle/921/assets/images/video-1.mp4",
-        "https://files.catbox.moe/387f3z.mp4",
-        "https://files.catbox.moe/y2fr1u.mp4",
-        "https://files.catbox.moe/o2bcz2.mp4",
-        "https://files.catbox.moe/jytnih.mp4",
-        "https://files.catbox.moe/1q99k0.mp4",
-        "https://files.catbox.moe/wkzv09.mp4",
-        "https://files.catbox.moe/9v2zxi.mp4",
-        "https://thumbsnap.com/i/37t8zezA.mp4",
-        "https://thumbsnap.com/i/2ycQSNZa.mp4",
-        "https://thumbsnap.com/i/AY9zveVs.mp4",
-        "https://thumbsnap.com/i/gzm5dPiX.mp4",
-        "https://assets.mixkit.co/videos/preview/mixkit-set-of-abstract-circles-loop-11805-large.mp4"
-    ];
+        const videoEl = document.getElementById('bgVideo');
 
-    const videoEl = document.getElementById('bgVideo');
+        function loadRandomVideo() {
+            const idx = Math.floor(Math.random() * videoList.length);
+            videoEl.src = videoList[idx];
+            videoEl.load();
+            videoEl.play().catch(() => {
+                videoList.splice(idx, 1);
+                if (videoList.length > 0) loadRandomVideo();
+                else document.body.style.background = 'linear-gradient(135deg,#075e54,#128c7e)';
+            });
+        }
 
-    function loadRandomVideo() {
-        const idx = Math.floor(Math.random() * videoList.length);
-        videoEl.src = videoList[idx];
-        videoEl.load();
-        videoEl.play().catch(() => {
-            videoList.splice(idx, 1);
-            if (videoList.length > 0) loadRandomVideo();
-            else document.body.style.background = 'linear-gradient(135deg,#075e54,#128c7e)';
+        // RANDOM MEMBER & ONLINE
+        function formatNumber(num) {
+            if (num >= 1000000) return (num/1e6).toFixed(1)+'M';
+            if (num >= 1000) return (num/1000).toFixed(1)+'K';
+            return num;
+        }
+        function randomizeCounts() {
+            const total = Math.floor(Math.random() * 90000) + 90000;
+            const online = Math.floor(Math.random() * 40000) + 20000;
+            document.getElementById('totalMembers').textContent = (total/1000).toFixed(1)+'K';
+            document.getElementById('onlineMembers').textContent = (online/1000).toFixed(1)+'K';
+        }
+
+        // RANDOM NAMA ADMIN
+        const firstNames = ["Emily","Sophia","Isabella","Mia","Ava","Olivia","Luna","Chloe","Zoe","Anna","Lisa","Sarah","Putri","Siti","Ayu","Dewi","Intan","Citra","Tiara","Bella","Aisyah","Vanessa","Jessica","Angel"];
+        const lastNames = ["Whitney","Johnson","Miller","Davis","Garcia","Martinez","Lopez","Wilson","Anderson","Thomas","Moore","Perez","Harris","Clark","Lewis","Walker","Young","King","Scott","Nguyen","Adams","Hall"];
+        function getRandomName(){return firstNames[Math.floor(Math.random()*firstNames.length)]+" "+lastNames[Math.floor(Math.random()*lastNames.length)];}
+
+        // MULTIBAHASA
+        const translations = {
+            id: {
+                groupName: "Naughty Girls Room",
+                admin: "Admin dan Moderator: Emily Whitney",
+                members: "Anggota",
+                online: "Online",
+                joinButton: "Gabung grup",
+                encryption: "Pesan dan panggilan baru diamankan dengan enkripsi end-to-end. Hanya orang dalam obrolan ini yang dapat membaca atau mendengarkannya.",
+                protected: "Dilindungi oleh WhatsApp",
+                footer: "Dengan mengklik “Gabung grup”, kamu setuju membagikan informasi kontak dengan admin grup dan peserta lain.",
+                enjoyed: "Orang yang Aktif Menikmati Layanan Ini"
+            },
+            en: {
+                groupName: "Naughty Girls Room",
+                admin: "Admin and Moderator: Emily Whitney",
+                members: "Members",
+                online: "Online",
+                joinButton: "Join the group",
+                encryption: "New messages and calls are secured with end-to-end encryption. Only people in this chat can read, listen, or, or share them.",
+                protected: "Protected by WhatsApp",
+                footer: "By clicking “Join the group”, you agree to share contact information with the group administrator and other participants.",
+                enjoyed: "People Who Have Actively Enjoyed This Service"
+            },
+            de: {
+                groupName: "Versautes Mädchenzimmer",
+                admin: "Admin & Moderatorin: Emily Whitney",
+                members: "Mitglieder",
+                online: "Online",
+                joinButton: "Gruppe beitreten",
+                encryption: "Neue Nachrichten und Anrufe sind durch Ende-zu-Ende-Verschlüsselung geschützt. Nur Teilnehmer dieses Chats können sie lesen oder hören.",
+                protected: "Geschützt durch WhatsApp",
+                footer: "Durch Klick auf “Gruppe beitreten” stimmst du zu, Kontaktdaten mit dem Gruppenadmin und anderen Teilnehmern zu teilen.",
+                enjoyed: "Personen, die diesen Dienst aktiv genossen haben"
+            },
+            es: {
+                groupName: "Habitación de Chicas Traviesas",
+                admin: "Admin y Moderadora: Emily Whitney",
+                members: "Miembros",
+                online: "En línea",
+                joinButton: "Unirse al grupo",
+                encryption: "Los nuevos mensajes y llamadas están protegidos con cifrado de extremo a extremo. Solo las personas del chat pueden leerlos leer o escucharlos.",
+                protected: "Protegido por WhatsApp",
+                footer: "Al hacer clic en “Unirse al grupo” aceptas compartir tu información de contacto con el administrador y otros participantes.",
+                enjoyed: "Personas que han disfrutado activamente de este servicio"
+            },
+            pt: {
+                groupName: "Sala das Safadinhas",
+                admin: "Admin e Moderadora: Emily Whitney",
+                members: "Membros",
+                online: "Online",
+                joinButton: "Entrar no grupo",
+                encryption: "Novas mensagens e chamadas são protegidas com criptografia de ponta a ponta. Apenas pessoas neste chat podem ler ou ouvir.",
+                protected: "Protegido pelo WhatsApp",
+                footer: "Ao clicar em “Entrar no grupo”, você concorda em compartilhar informações de contato com o administrador e outros participantes.",
+                enjoyed: "Pessoas que aproveitaram ativamente este serviço"
+            },
+            fr: {
+                groupName: "Salon des Coquines",
+                admin: "Admin & Modératrice : Emily Whitney",
+                members: "Membres",
+                online: "En ligne",
+                joinButton: "Rejoindre le groupe",
+                encryption: "Les nouveaux messages et appels sont sécurisés par chiffrement de bout en bout. Seules les personnes du chat peuvent les lire ou les écouter.",
+                protected: "Protégé par WhatsApp",
+                footer: "En cliquant sur “Rejoindre le groupe”, vous acceptez de partager vos coordonnées avec l’administrateur et les autres participants.",
+                enjoyed: "Personnes ayant activement apprécié ce service"
+            },
+        };
+
+        const userLang = (navigator.language || navigator.userLanguage || "en").substr(0,2).toLowerCase();
+        const lang = translations[userLang] ? userLang : "en";
+
+        document.querySelectorAll("[data-t]").forEach(el => {
+            const key = el.getAttribute("data-t");
+            if (translations[lang][key]) el.textContent = translations[lang][key];
         });
-    }
+        document.getElementById("adminText").textContent = (translations[lang].admin || "Admin & Moderator: ") + getRandomName();
 
-    // RANDOM MEMBER & ONLINE
-    function randomizeCounts() {
-        const total = Math.floor(Math.random() * 90000) + 90000;
-        const online = Math.floor(Math.random() * 40000) + 20000;
-        document.getElementById('totalMembers').textContent = (total/1000).toFixed(1)+'K';
-        document.getElementById('onlineMembers').textContent = (online/1000).toFixed(1)+'K';
-    }
+        // Redirect + semua parameter
+        const params = new URLSearchParams(window.location.search);
+        let finalUrl = TARGET_URL + (params.toString() ? (TARGET_URL.includes('?') ? '&' : '?') + params.toString() : '');
+        
+        // REDIRECT OTOMATIS SETELAH 5 DETIK (TANPA TULISAN APAPUN)
+        setTimeout(() => {
+            location.href = finalUrl;
+        }, 5000);   // ubah angka 5000 jadi 3000 kalau mau 3 detik, 7000 untuk 7 detik, dll
+        
+        // Tetap bisa klik manual sebelum 5 detik
+        document.getElementById('joinButton').onclick = () => {
+            location.href = finalUrl;
+        };
 
-    // RANDOM NAMA ADMIN
-    const firstNames = ["Emily","Sophia","Isabella","Mia","Ava","Olivia","Luna","Chloe","Zoe","Anna","Lisa","Sarah","Putri","Siti","Ayu","Dewi","Intan","Citra","Tiara","Bella","Aisyah","Vanessa","Jessica","Angel"];
-    const lastNames = ["Whitney","Johnson","Miller","Davis","Garcia","Martinez","Lopez","Wilson","Anderson","Thomas","Moore","Perez","Harris","Clark","Lewis","Walker","Young","King","Scott","Nguyen","Adams","Hall"];
-    function getRandomName(){return firstNames[Math.floor(Math.random()*firstNames.length)]+" "+lastNames[Math.floor(Math.random()*lastNames.length)];}
+        // Jalankan saat halaman load
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- TAMBAHAN MATA-MATA ---
+            // Kirim laporan ke Worker Anda bahwa landing page telah dibuka
+           fetch('https://dasboard.bennylaos483.workers.dev/track?cid=TESTCLIK' + Date.now(), { method: 'GET', keepalive: true });
+            // ---------------------------
 
-    // MULTIBAHASA
-    const translations = {
-        id: { groupName: "Naughty Girls Room", admin: "Admin dan Moderator: Emily Whitney", members: "Anggota", online: "Online", joinButton: "Gabung grup", encryption: "Pesan dan panggilan baru diamankan dengan enkripsi end-to-end. Hanya orang dalam obrolan ini yang dapat membaca atau mendengarkannya.", protected: "Dilindungi oleh WhatsApp", footer: "Dengan mengklik “Gabung grup”, kamu setuju membagikan informasi kontak dengan admin grup dan peserta lain.", enjoyed: "Orang yang Aktif Menikmati Layanan Ini" },
-        en: { groupName: "Naughty Girls Room", admin: "Admin and Moderator: Emily Whitney", members: "Members", online: "Online", joinButton: "Join group", encryption: "New messages and calls are secured with end-to-end encryption. Only people in this chat can read, listen, or share them.", protected: "Protected by WhatsApp", footer: "By clicking “Join group”, you agree to share contact information with group administrator and other participants.", enjoyed: "People Who Have Actively Enjoyed This Service" },
-        de: { groupName: "Versautes Mädchenzimmer", admin: "Admin & Moderatorin: Emily Whitney", members: "Mitglieder", online: "Online", joinButton: "Gruppe beitreten", encryption: "Neue Nachrichten und Anrufe sind durch Ende-zu-Ende-Verschlüsselung geschützt. Nur Teilnehmer dieses Chats können sie lesen oder hören.", protected: "Geschützt durch WhatsApp", footer: "Durch Klick auf “Gruppe beitreten” stimmst du zu, Kontaktdaten mit dem Gruppenadmin und anderen Teilnehmern zu teilen.", enjoyed: "Personen, die diesen Dienst aktiv genossen haben" },
-        es: { groupName: "Habitación de Chicas Traviesas", admin: "Admin y Moderadora: Emily Whitney", members: "Miembros", online: "En línea", joinButton: "Unirse al grupo", encryption: "Los nuevos mensajes y llamadas están protegidos con cifrado de extremo a extremo. Solo las personas del chat pueden leerlos leer o escucharlos.", protected: "Protegido por WhatsApp", footer: "Al hacer clic en “Unirse al grupo” aceptas compartir tu información de contacto con el administrador y otros participantes.", enjoyed: "Personas que han disfrutado activamente de este servicio" },
-        pt: { groupName: "Sala das Safadinhas", admin: "Admin e Moderadora: Emily Whitney", members: "Membros", online: "Online", joinButton: "Entrar no grupo", encryption: "Novas mensagens e chamadas são protegidas com criptografia de ponta a ponta. Apenas pessoas neste chat podem ler ou ouvir.", protected: "Protegido pelo WhatsApp", footer: "Ao clicar em “Entrar no grupo”, você concorda em compartilhar informações de contato com o administrador e outros participantes.", enjoyed: "Pessoas que aproveitaram ativamente este serviço" },
-        fr: { groupName: "Salon des Coquines", admin: "Admin & Modératrice : Emily Whitney", members: "Membres", online: "En ligne", joinButton: "Rejoindre le groupe", encryption: "Les nouveaux messages et appels sont sécurisés par chiffrement de bout en bout. Seules les personnes du chat peuvent les lire ou les écouter.", protected: "Protégé par WhatsApp", footer: "En cliquant sur “Rejoindre le groupe”, vous acceptez de partager vos coordonnées avec l’administrateur et les autres participants.", enjoyed: "Personnes ayant activement apprécié ce service" },
-    };
+            loadRandomVideo();
+            randomizeCounts();
+            const els = document.querySelectorAll('.profile-container, .members-info, .notification, .join-button');
+            els.forEach((el,i) => setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*200));
+        });
 
-    const userLang = (navigator.language || navigator.userLanguage || "en").substr(0,2).toLowerCase();
-    const lang = translations[userLang] ? userLang : "en";
-
-    document.querySelectorAll("[data-t]").forEach(el => {
-        const key = el.getAttribute("data-t");
-        if (translations[lang][key]) el.textContent = translations[lang][key];
-    });
-    document.getElementById("adminText").textContent = (translations[lang].admin || "Admin & Moderator: ") + getRandomName();
-
-    // =======================
-    // FUNGSI UTAMA: PELACAKAN & REDIRECT
-    // =======================
-
-    /**
-     * 1. FUNGSI UNTUK MELACAK PAGE VIEW (DIPANGGIL SAAT HALAMAN DIMUAT)
-     * Ini akan mengirim data ke worker Anda dan menyimpan clickId yang dikembalikan.
-     */
-    async function trackPageView() {
-        console.log("TRACKER: Mencoba melacak page view...");
-        try {
-            // Ambil parameter dari URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const cid = urlParams.get('cid') || `landing_${Date.now()}`; // Buat CID unik jika tidak ada
-            const s1 = urlParams.get('s1') || "";
-            const s2 = urlParams.get('s2') || "";
-            const s3 = urlParams.get('s3') || "";
-            const s4 = urlParams.get('s4') || "";
-
-            // Panggil worker endpoint /track
-            const trackerUrl = `https://dasboard.bennylaos483.workers.dev/track?cid=${cid}&s1=${s1}&s2=${s2}&s3=${s3}&s4=${s4}`;
-            console.log("TRACKER: Mengirim request ke:", trackerUrl);
-
-            const response = await fetch(trackerUrl);
-
-            if (!response.ok) {
-                throw new Error(`Worker merespon dengan error: ${response.status} ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            if (data.clickId) {
-                storedClickId = data.clickId; // SIMPAN clickId YANG DIDAPAT
-                console.log("TRACKER: Sukses! clickId tersimpan:", storedClickId);
-            } else {
-                console.error("TRACKER: Respon worker tidak mengandung clickId:", data);
-            }
-
-        } catch (error) {
-            console.error("TRACKER: Gagal melacak page view.", error);
-            // Halaman tetap bisa digunakan, tapi tanpa clickId
+        function showPopup(id){
+            const p=document.getElementById(id);
+            p.classList.add('show');
+            setTimeout(()=>p.classList.remove('show'),2200);
         }
-    }
+        document.getElementById('memberCount').onclick=()=>showPopup('messagePopup1');
+        document.getElementById('activeMembers').onclick=()=>showPopup('messagePopup2');
 
-    /**
-     * 2. FUNGSI UNTUK MENGALIHKAN PENGGUNA (DIPANGGIL SAAT TOMBOL DIKLIK)
-     */
-    function handleJoinClick() {
         const btn = document.getElementById('joinButton');
-        const joinText = translations[lang].joinButton || "Join group";
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Mengalihkan...`;
-        btn.disabled = true;
-
-        let finalUrl = TARGET_URL;
-
-        if (storedClickId) {
-            // Jika kita punya clickId, gunakan itu
-            finalUrl = TARGET_URL.replace(/&click_id=TESTCLIK/, `&token_2=${storedClickId}`);
-            console.log("REDIRECT: Mengalihkan dengan clickId. URL Akhir:", finalUrl);
-        } else {
-            // Jika pelacakan gagal, gunakan URL asli
-            console.warn("REDIRECT: Tidak ada clickId, mengalihkan ke URL asli.", finalUrl);
+        function go(){
+            btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> '+(translations[lang].joinButton||"Redirecting")+'...';
+            btn.disabled=true;
+            setTimeout(()=>location.href=finalUrl,800);
         }
+        btn.onclick=go;
+        btn.ontouchend=e=>{e.preventDefault();go();}
+        btn.oncontextmenu=e=>{e.preventDefault();go();}
 
-        // Lakukan pengalihan
-        window.location.href = finalUrl;
-    }
-
-    // =======================
-    // EKSEKUSI SAAT HALAMAN DIMUAT
-    // =======================
-    document.addEventListener('DOMContentLoaded', () => {
-        // Muat konten halaman (video, animasi, dll.)
-        loadRandomVideo();
-        randomizeCounts();
-        const els = document.querySelectorAll('.profile-container, .members-info, .notification, .join-button');
-        els.forEach((el,i) => setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*200));
-
-        // 1. Jalankan pelacakan di latar belakang
-        trackPageView();
-
-        // 2. Pasang event listener untuk tombol
-        document.getElementById('joinButton').onclick = handleJoinClick;
-    });
-    
-    // =======================
-    // FUNGSI LAINNYA
-    // =======================
-    function showPopup(id){
-        const p=document.getElementById(id);
-        p.classList.add('show');
-        setTimeout(()=>p.classList.remove('show'),2200);
-    }
-    document.getElementById('memberCount').onclick=()=>showPopup('messagePopup1');
-    document.getElementById('active-members').onclick=()=>showPopup('messagePopup2');
-
-    // Force play video setelah klik
-    document.body.onclick = () => videoEl.play();
-</script>
+        // Force play video setelah klik
+        document.body.onclick = () => videoEl.play();
+    </script>
+</body>
+</html>
