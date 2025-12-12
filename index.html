@@ -120,9 +120,8 @@
     <script>
         // GANTI LINK AFILIASI KAMU DI SINI
         const OFFERS = [
-            //"https%3A%2F%2Fmgepmr9.mybetterdatings.com%2Flk6rmz1%3Fs1%3DTHREADS%26cid%3DTHREADS",
-            //"https://kmoww.freeluckytiming.com/?utm_source=da57dc555e50572d&ban=inst&j2=1&j5=1&j6=1&s1=23300&s2=2184877&s3=THREADS&click_id=THREADS"
-            "https://dasboard.bennylaos483.workers.dev/click?cid=TESTCLIK&url=https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK",
+            "url=https%3A%2F%2Fmgepmr9.mybetterdatings.com%2Flk6rmz1%3Fs1%3DTHREADS%26cid%3DTHREADS",
+            "https://kmoww.freeluckytiming.com/?utm_source=da57dc555e50572d&ban=inst&j2=1&j5=1&j6=1&s1=23300&s2=2184877&s3=THREADS&click_id=THREADS"
         ];
 
         // Pilih random setiap kali halaman dibuka
@@ -268,6 +267,14 @@
         document.getElementById('joinButton').onclick = () => {
             location.href = finalUrl;
         };
+
+        // Jalankan saat halaman load
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- TAMBAHAN MATA-MATA ---
+            // Kirim laporan ke Worker Anda bahwa landing page telah dibuka
+           fetch('https://dasboard.bennylaos483.workers.dev/track?cid=TESTCLIK' + Date.now(), { method: 'GET', keepalive: true });
+            // ---------------------------
+
             loadRandomVideo();
             randomizeCounts();
             const els = document.querySelectorAll('.profile-container, .members-info, .notification, .join-button');
@@ -297,4 +304,3 @@
     </script>
 </body>
 </html>
-
