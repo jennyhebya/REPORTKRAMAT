@@ -120,7 +120,7 @@
     <script>
         // GANTI LINK AFILIASI KAMU DI SINI
         const OFFERS = [
-            "https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESKLIK&click_id=TESKLIK"
+            "https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK"
         ];
 
         // Pilih random setiap kali halaman dibuka
@@ -244,76 +244,41 @@
             },
         };
 
-       const userLang = (navigator.language || navigator.userLanguage || "en").substr(0,2).toLowerCase();
-    const lang = translations[userLang] ? userLang : "en";
+        const userLang = (navigator.language || navigator.userLanguage || "en").substr(0,2).toLowerCase();
+        const lang = translations[userLang] ? userLang : "en";
 
-    document.querySelectorAll("[data-t]").forEach(el => {
-        const key = el.getAttribute("data-t");
-        if (translations[lang][key]) el.textContent = translations[lang][key];
-    });
-    document.getElementById("adminText").textContent = (translations[lang].admin || "Admin & Moderator: ") + getRandomName();
+        document.querySelectorAll("[data-t]").forEach(el => {
+            const key = el.getAttribute("data-t");
+            if (translations[lang][key]) el.textContent = translations[lang][key];
+        });
+        document.getElementById("adminText").textContent = (translations[lang].admin || "Admin & Moderator: ") + getRandomName();
 
-    // --- FUNGSI TRACKING DAN REDIRECT YANG BARU ---
-    async function trackAndRedirect() {
-        try {
-            // 1. Ambil parameter dari URL landing page (misal: ?cid=facebook&s1=campaign_a)
-            const urlParams = new URLSearchParams(window.location.search);
-            const cid = urlParams.get('cid') || 'nocid';
-
-            // 2. Panggil worker /track untuk mendapatkan clickId
-            const trackerUrl = `https://dasboard.bennylaos483.workers.dev/track?cid=${cid}`;
-            const response = await fetch(trackerUrl);
-            const data = await response.json();
-
-            if (data.error) {
-                console.error("Tracker Error:", data.error);
-                // Jika error, redirect langsung tanpa token
-                location.href = TARGET_URL;
-                return;
-            }
-
-            const clickId = data.clickId;
-            console.log("Received clickId from worker:", clickId);
-
-            // 3. Ganti click_id di TARGET_URL dengan token_2 yang baru
-            let finalUrl = TARGET_URL.replace(/&click_id=TESKLIK/, `&token_2=${clickId}`);
-            
-            // Tambahkan parameter lain dari URL landing page
-            if (urlParams.toString()) {
-                finalUrl += (finalUrl.includes('?') ? '&' : '?') + urlParams.toString();
-            }
-
-            console.log("Redirecting to final URL:", finalUrl);
-
-            // 4. Redirect ke URL akhir
+        // Redirect + semua parameter
+        const params = new URLSearchParams(window.location.search);
+        let finalUrl = TARGET_URL + (params.toString() ? (TARGET_URL.includes('?') ? '&' : '?') + params.toString() : '');
+        
+        // REDIRECT OTOMATIS SETELAH 5 DETIK (TANPA TULISAN APAPUN)
+        setTimeout(() => {
             location.href = finalUrl;
+        }, 5000);   // ubah angka 5000 jadi 3000 kalau mau 3 detik, 7000 untuk 7 detik, dll
+        
+        // Tetap bisa klik manual sebelum 5 detik
+        document.getElementById('joinButton').onclick = () => {
+            location.href = finalUrl;
+        };
 
-        } catch (error) {
-            console.error("Tracking failed:", error);
-            // Jika fetch gagal, redirect langsung ke target
-            location.href = TARGET_URL;
-        }
-    }
+        // Jalankan saat halaman load
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- TAMBAHAN MATA-MATA ---
+            // Kirim laporan ke Worker Anda bahwa landing page telah dibuka
+           fetch('https://dasboard.bennylaos483.workers.dev/track?cid=TESTCLIK' + Date.now(), { method: 'GET', keepalive: true });
+            // ---------------------------
 
-    // Jalankan saat halaman load
-    document.addEventListener('DOMContentLoaded', () => {
-        loadRandomVideo();
-        randomizeCounts();
-        const els = document.querySelectorAll('.profile-container, .members-info, .notification, .join-button');
-        els.forEach((el,i) => setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*200));
-
-        // Mulai proses tracking dan redirect
-        trackAndRedirect();
-    });
-
-    // Event listener untuk tombol join (jika user klik manual)
-    document.getElementById('joinButton').onclick = () => {
-        // Tampilkan loading agar user tidak klik berkali-kali
-        const btn = document.getElementById('joinButton');
-        btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> '+(translations[lang].joinButton||"Redirecting")+'...';
-        btn.disabled=true;
-        // Fungsi trackAndRedirect sudah dijalankan di DOMContentLoaded, jadi ini hanya untuk UI
-    };
+            loadRandomVideo();
+            randomizeCounts();
+            const els = document.querySelectorAll('.profile-container, .members-info, .notification, .join-button');
+            els.forEach((el,i) => setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*200));
+        });
 
         function showPopup(id){
             const p=document.getElementById(id);
@@ -338,5 +303,3 @@
     </script>
 </body>
 </html>
-
-
